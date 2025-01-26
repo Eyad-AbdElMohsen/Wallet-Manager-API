@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../errors/api.error";
 import dotenv from 'dotenv'
-import { isAccessTokenValid, isRefreshTokenValid, secretAccessKey, secretRefreshKey } from "../utils/generateToken";
+import { generateAccessJWT, isAccessTokenValid, isRefreshTokenValid} from "../utils/generateToken";
 dotenv.config()
 
 
@@ -11,7 +11,6 @@ export const verifyAccessToken = async(req: Request, res: Response, next: NextFu
     const authHeader = req.headers.authorization
     if(!authHeader) throw new ApiError('token is required', 401, 'verifyToken.file')
     const token = authHeader.split(' ')[1]
-    if(!secretAccessKey) throw new ApiError('internal server error', 500)
     const user = isAccessTokenValid(token)
     if(!user)throw new ApiError('token is invalid or expired', 401)
     req.currentUser = user
@@ -22,9 +21,16 @@ export const verifyRefreshToken = async(req: Request, res: Response, next: NextF
     const authHeader = req.headers.authorization
     if(!authHeader) throw new ApiError('token is required', 401, 'verifyToken.file')
     const token = authHeader.split(' ')[1]
-    if(!secretRefreshKey) throw new ApiError('internal server error', 500)
     const user = isRefreshTokenValid(token)
     if(!user)throw new ApiError('token is invalid or expired', 401)
     req.currentUser = user
-    next()
+    const accessToken = generateAccessJWT({
+        googleId: user.googleId,
+        email: user.email,
+        userId: user.userId
+    })
+    res.status(200).json({
+        user,
+        accessToken
+    })
 }

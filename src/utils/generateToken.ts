@@ -1,9 +1,10 @@
+import ApiError from '../errors/api.error'
 import { JwtPayload} from '../models/user.model'
 import jwt from 'jsonwebtoken'
 
 
-export const secretAccessKey = process.env.JWT_SECRET_ACCESS
-export const secretRefreshKey = process.env.JWT_SECRET_REFRESH
+const secretAccessKey = process.env.JWT_SECRET_ACCESS
+const secretRefreshKey = process.env.JWT_SECRET_REFRESH
 
 
 export const generateAccessJWT = async(payload: JwtPayload) => {
@@ -22,6 +23,7 @@ export const generateAccessJWT = async(payload: JwtPayload) => {
 
 export const isAccessTokenValid = (token: string) => {
     try{
+        if(!secretAccessKey) throw new ApiError('internal server error', 500)
         return jwt.verify(token, secretAccessKey!) as JwtPayload
     }catch(err){
         return false
@@ -35,7 +37,7 @@ export const generateRefreshJWT = async(payload: JwtPayload) => {
             payload as JwtPayload,
             // in terminal -> require('crypto').randomBytes(32).toString('hex') 
             secretRefreshKey,
-            {expiresIn: '5h'}
+            {expiresIn: '7d'}
         )
         return token
     }else{
@@ -45,6 +47,7 @@ export const generateRefreshJWT = async(payload: JwtPayload) => {
 
 export const isRefreshTokenValid = (token: string) => {
     try{
+        if(!secretRefreshKey) throw new ApiError('internal server error', 500)
         return jwt.verify(token, secretRefreshKey!) as JwtPayload
     }catch(err){
         return false
