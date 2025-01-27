@@ -1,30 +1,27 @@
+import { Console } from 'console'
 import ApiError from '../errors/api.error'
 import { JwtPayload} from '../models/user.model'
 import jwt from 'jsonwebtoken'
 
 
-const secretAccessKey = process.env.JWT_SECRET_ACCESS
-const secretRefreshKey = process.env.JWT_SECRET_REFRESH
-
-
 export const generateAccessJWT = async(payload: JwtPayload) => {
-    if(secretAccessKey){
+    if(process.env.JWT_SECRET_ACCESS){
         const token = jwt.sign(
             payload as JwtPayload,
             // in terminal -> require('crypto').randomBytes(32).toString('hex') 
-            secretAccessKey,
+            process.env.JWT_SECRET_ACCESS,
             {expiresIn: '5h'}
         )
         return token
     }else{
-        throw new Error('the secretKey is required')
+        throw new ApiError('the secretKey is required', 500)
     }
 }
 
 export const isAccessTokenValid = (token: string) => {
+    if(!process.env.JWT_SECRET_ACCESS) throw new ApiError('the secretKey is required', 500)
     try{
-        if(!secretAccessKey) throw new ApiError('internal server error', 500)
-        return jwt.verify(token, secretAccessKey!) as JwtPayload
+        return jwt.verify(token, process.env.JWT_SECRET_ACCESS) as JwtPayload
     }catch(err){
         return false
     }
@@ -32,23 +29,23 @@ export const isAccessTokenValid = (token: string) => {
 
 
 export const generateRefreshJWT = async(payload: JwtPayload) => {
-    if(secretRefreshKey){
+    if(process.env.JWT_SECRET_REFRESH){
         const token = jwt.sign(
             payload as JwtPayload,
             // in terminal -> require('crypto').randomBytes(32).toString('hex') 
-            secretRefreshKey,
+            process.env.JWT_SECRET_REFRESH,
             {expiresIn: '7d'}
         )
         return token
     }else{
-        throw new Error('the secretKey is required')
+        throw new ApiError('the secretKey is required', 500)
     }
 }
 
 export const isRefreshTokenValid = (token: string) => {
+    if(!process.env.JWT_SECRET_REFRESH) throw new ApiError('the secretKey is required', 500)
     try{
-        if(!secretRefreshKey) throw new ApiError('internal server error', 500)
-        return jwt.verify(token, secretRefreshKey!) as JwtPayload
+        return jwt.verify(token, process.env.JWT_SECRET_REFRESH) as JwtPayload
     }catch(err){
         return false
     }
