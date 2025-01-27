@@ -1,8 +1,8 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../errors/api.error";
-import dotenv from 'dotenv'
 import { generateAccessJWT, isAccessTokenValid, isRefreshTokenValid} from "../utils/generateToken";
-dotenv.config()
 
 
 
@@ -17,7 +17,7 @@ export const verifyAccessToken = async(req: Request, res: Response, next: NextFu
     next()
 }
 
-export const verifyRefreshToken = async(req: Request, res: Response, next: NextFunction) => {
+export const verifyRefreshToken = async(req: Request, res: Response) => {
     const authHeader = req.headers.authorization
     if(!authHeader) throw new ApiError('token is required', 401, 'verifyToken.file')
     const token = authHeader.split(' ')[1]
