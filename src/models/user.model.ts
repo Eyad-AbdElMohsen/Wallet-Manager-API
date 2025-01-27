@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document, Model } from "mongoose"
 import dotenv from 'dotenv'
-
-
 dotenv.config()
+import mongoose, { Schema, Document, Model } from "mongoose"
+
+
 
 const userSchema: Schema = new mongoose.Schema({
     name: {type: String, required: true},

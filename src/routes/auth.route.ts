@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { getGoogleOAuthHandler, googleOAuthHandler } from '../middlewares/googleAuth.middleware';
+import { getGoogleOAuthHandler, googleOAuthHandler } from '../controllers/googleAuth.controller'
 import { verifyRefreshToken } from '../middlewares/verifyToken';
+import { auth } from 'google-auth-library';
 
 const authRouter = Router()
 
-authRouter.route('/oauth/google')
-    .get(getGoogleOAuthHandler)
+authRouter.get('/oauth/google', getGoogleOAuthHandler)
 
-authRouter.route('/api/sessions/oauth/google')
-    .get(googleOAuthHandler)
+authRouter.get('/api/sessions/oauth/google', googleOAuthHandler)
 
-authRouter.route('/tokens/refresh')
-    .post(verifyRefreshToken)
+authRouter.post('/tokens/refresh', verifyRefreshToken)
+
+export default authRouter
