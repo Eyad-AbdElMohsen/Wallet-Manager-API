@@ -1,9 +1,6 @@
 import  request  from "supertest"
 import { app } from "../../index"
 
-
-
-
 describe('notFoundMiddleware', () => {
     it('should throw apiError with status code 404', async() => {
         const response = await request(app).get('/api/not/found/middleware')

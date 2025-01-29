@@ -1,20 +1,19 @@
+import { app } from "../../index";
 import ApiError from "../../errors/api.error";
+import request from 'supertest'
 
-
-
+jest.mock('../../middlewares/requestLogger.ts', () => {
+    return {
+        requestLogger: jest.fn((req, res, next) => {
+            next(new ApiError('new api error', 500))
+        })
+    }
+})
 
 describe('errorMiddleware', () => {
     it('should return new api error', async() => {
-        await expect(Promise.reject(new ApiError('new api error', 500))).rejects.toThrow('new api error');
-    })
-
-    it('should return new error', async() => {
-        await expect(Promise.reject(new Error('new error'))).rejects.toThrow('new error');
-
-    })
-
-    it('should return new unknown error', async() => {
-        await expect(Promise.reject('new unknown error')).rejects.toBe('new unknown error');
+        const response = await request(app).get('/test/api-error').expect(500)
+        expect(response.body.message).toMatch('new api error')
     })
 })
 

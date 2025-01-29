@@ -1,8 +1,6 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import mongoose, { Schema, Document, Model } from "mongoose"
 
-
+// dont forget => monogo db
 
 const userSchema: Schema = new mongoose.Schema({
     name: {type: String, required: true},

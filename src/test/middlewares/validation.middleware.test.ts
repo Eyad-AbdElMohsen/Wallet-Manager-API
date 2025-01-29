@@ -23,11 +23,13 @@ describe('validationMiddleware', () => {
             email: 'invalid-email'
         };
         await check('email').isEmail().withMessage('Invalid email format').run(mockRequest as Request);
-        await expect(validationMiddleware(
+        const validation = validationMiddleware( 
             mockRequest as Request,
             mockResponse as Response, 
             nextFunction
-        )).rejects.toThrow('Validation Error')
+        )
+        await expect(validation).rejects.toThrow('Validation Error')
+        await expect(validation).rejects.toHaveProperty('code', 400)
     })
 
     it('should call next function for no validation errors', async() => {

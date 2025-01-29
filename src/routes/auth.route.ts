@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { getGoogleOAuthHandler, googleOAuthHandler } from '../controllers/googleAuth.controller'
 import { verifyRefreshToken } from '../middlewares/verifyToken';
-import { auth } from 'google-auth-library';
 
 const authRouter = Router()
 

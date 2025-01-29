@@ -1,5 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../errors/api.error";
 import { generateAccessJWT, isAccessTokenValid, isRefreshTokenValid} from "../utils/generateToken";

@@ -1,5 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config()
 import express , {Express}from "express" 
 import errorMiddleware from "./middlewares/error.middleware";
 import notFoundMiddleware from "./middlewares/notFound.middleware";
@@ -8,9 +6,9 @@ import 'express-async-errors'
 import authRouter from "./routes/auth.route";
 
 
-const port = process.env.port || 8000
-
 export const app : Express = express();
+
+
 
 app.use(express.json())
 app.use(requestLogger)
@@ -26,10 +24,6 @@ app.all('*', notFoundMiddleware)
 app.use(errorMiddleware)
 
 
-
-app.listen(port , () => {
-    console.log("running on port: " + port);
-})
 
 // dont forget zodd 
 //npm install zod-to-ts zod typescript
