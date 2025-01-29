@@ -1,4 +1,3 @@
-import { Console } from 'console'
 import ApiError from '../errors/api.error'
 import { JwtPayload} from '../models/user.model'
 import jwt from 'jsonwebtoken'

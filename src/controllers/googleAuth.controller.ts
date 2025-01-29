@@ -55,7 +55,7 @@ export const googleOAuthHandler = async(req: Request, res: Response) => {
     })
 
     // Redirect the user back to the client with the session and tokens
-    res.status(200).send({
+    res.status(200).json({
         data: {
             user: googleUser,
             accessToken,
