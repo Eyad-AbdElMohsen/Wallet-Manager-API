@@ -1,6 +1,7 @@
-import validationMiddleware from "../../src/middlewares/validation.middleware"
 import { NextFunction, Request, Response } from "express";
 import { check } from "express-validator";
+import validationMiddleware from "../../middlewares/validation.middleware";
+
 
 describe('validationMiddleware', () => {
 

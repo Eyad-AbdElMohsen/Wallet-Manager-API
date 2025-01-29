@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config()
-import { generateAccessJWT, generateRefreshJWT, isAccessTokenValid, isRefreshTokenValid} from "../../src/utils/generateToken";
+import { generateAccessJWT, generateRefreshJWT, isAccessTokenValid, isRefreshTokenValid} from "../../utils/generateToken";
 import jwt from 'jsonwebtoken'
-import {JwtPayload} from '../../src/models/user.model'
+import {JwtPayload} from '../../models/user.model'
 
 describe('generateAccessJWT', () => {
 

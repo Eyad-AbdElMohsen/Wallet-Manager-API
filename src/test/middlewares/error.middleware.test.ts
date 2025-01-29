@@ -1,4 +1,5 @@
-import ApiError from "../../src/errors/api.error";
+import ApiError from "../../errors/api.error";
+
 
 
 

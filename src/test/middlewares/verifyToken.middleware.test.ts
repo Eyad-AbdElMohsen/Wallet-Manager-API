@@ -1,6 +1,6 @@
-import { verifyAccessToken } from '../../src/middlewares/verifyToken'
 import { NextFunction, Request, Response } from 'express';
-import { generateAccessJWT } from '../../src/utils/generateToken';
+import { verifyAccessToken } from '../../middlewares/verifyToken';
+import { generateAccessJWT } from '../../utils/generateToken';
 
 describe('verifyAccessToken', () => {
     let mockRequest: Partial<Request>;
