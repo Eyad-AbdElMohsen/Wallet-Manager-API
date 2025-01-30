@@ -1,13 +1,15 @@
 import mongoose, { Schema, Document, Model } from "mongoose"
+import env from "../env"
 
-// dont forget => monogo db
+const DB_URL = env.DB_URL
+mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
 
 const userSchema: Schema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true, index: true},
     picture: {type: String, required: true},
     googleId: {type: String, required: true, unique: true},
-    _id: {type: String}
+    _id: {type: String},
 })
 
 export interface IUser extends Document { 
@@ -15,7 +17,9 @@ export interface IUser extends Document {
     email: string,
     picture: string,
     googleId: string,
-    _id: string
+    _id: string,
+    accessToken: string,
+    refreshToken: string 
 }
 
 export interface JwtPayload {
