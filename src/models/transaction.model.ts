@@ -39,4 +39,4 @@ interface ITransaction extends Document{
 }
 
 
-export const Wallet: Model<ITransaction> = mongoose.model<ITransaction>('Transaction', transactionSchema);
+export const Transaction: Model<ITransaction> = mongoose.model<ITransaction>('Transaction', transactionSchema);

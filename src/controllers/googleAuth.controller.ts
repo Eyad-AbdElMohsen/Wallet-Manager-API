@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import ApiError from '../errors/api.error';
 import { generateAccessJWT, generateRefreshJWT } from '../utils/generateToken';
 import * as googleAuthServices from '../services/googleAuth.service';
 
-export const getGoogleOAuthHandler = (req: Request, res: Response)=> {
+export const getGoogleOAuthHandler: RequestHandler = (req, res)=> {
     const scope = 'email profile'
     const oauthUrl = googleAuthServices.getGoogleAuthHandler(scope)
     res.status(200).json({ oauthUrl });
 }
 
-export const googleOAuthHandler = async(req: Request, res: Response) => {
+export const googleOAuthHandler: RequestHandler = async(req, res) => {
     // get code from qs
     const code = req.query.code as string
     if (!code) 

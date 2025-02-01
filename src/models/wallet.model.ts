@@ -15,10 +15,17 @@ const walletSchema = new mongoose.Schema({
     timestamps: true
 })
 
-interface IWallet extends Document { 
+export interface IWallet extends Document { 
     _id: string,
     walletName: string, 
     currentBalance: number, 
+    type: string,
+    userId: string
+}
+
+export interface createWalletData {
+    walletName: string,
+    currentBalance: number,
     type: string,
     userId: string
 }
