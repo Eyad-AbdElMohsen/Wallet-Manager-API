@@ -38,16 +38,34 @@ export const getMyWallets: RequestHandler = async(req, res, next) => {
 }
 
 export const getWalletById: RequestHandler = async(req, res, next) => {
-    const walletId = req.params.walletId 
+    const wallet = req.wallet!
+    res.status(200).json({
+        status: 'SUCCESS',
+        data: wallet
+    })
+}
 
-    const wallet = await walletService.getWalletById(walletId)
-    const userId = wallet.userId
 
-    if(userId != req.currentUser!.userId)
-        throw new ApiError('This user does not have access for this wallet', 403)
+export const updateWalletBalance: RequestHandler = async(req, res, next) => {
+    const newBalance = req.body.newBalance
+    // validation in new balance
+
+    const wallet = req.wallet!
+
+    await walletService.updateWalletBalance(wallet, newBalance)
 
     res.status(200).json({
         status: 'SUCCESS',
         data: wallet
+    })
+}
+
+export const deleteMyWallet: RequestHandler  = async(req, res, next) => {
+    const wallet = req.wallet!
+    await walletService.deleteMyWallet(wallet)
+
+    res.status(200).json({
+        status: 'SUCCESS',
+        data: null
     })
 }

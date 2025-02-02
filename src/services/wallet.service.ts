@@ -21,7 +21,7 @@ export const getMyWallets = async(userId: string, queryObject: queryObjType) => 
     const wallets = await features.query;
 
     if(!wallets)
-        throw new ApiError('no wallets', 404)
+        throw new ApiError('This user does not have any wallets yet', 404)
 
     return wallets
 }
@@ -34,3 +34,11 @@ export const getWalletById = async(id: string) => {
 
     return wallet
 }
+
+export const updateWalletBalance = async(wallet: IWallet, newBalance: number) => {
+    wallet.currentBalance = newBalance
+    await wallet.save()
+    return wallet
+}
+
+export const deleteMyWallet = async(wallet: IWallet) => await Wallet.deleteOne({_id: wallet._id})
