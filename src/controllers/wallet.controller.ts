@@ -1,6 +1,5 @@
 import * as walletService from '../services/wallet.service'
 import { ParsedQs } from "qs";
-import ApiError from "../errors/api.error";
 import { RequestHandler } from 'express';
 
 export const createWallet: RequestHandler = async(req, res, next) => {
@@ -18,7 +17,9 @@ export const createWallet: RequestHandler = async(req, res, next) => {
     const newWallet = await walletService.createWallet(data)
     res.status(200).json({
         status: 'SUCCESS',
-        data: newWallet
+        data: {
+            newWallet
+        }
     })
 }
 
@@ -33,7 +34,9 @@ export const getMyWallets: RequestHandler = async(req, res, next) => {
 
     res.status(200).json({
         status: 'SUCCESS',
-        data: wallets
+        data: {
+            wallets
+        }
     })
 }
 
@@ -41,7 +44,9 @@ export const getWalletById: RequestHandler = async(req, res, next) => {
     const wallet = req.wallet!
     res.status(200).json({
         status: 'SUCCESS',
-        data: wallet
+        data: {
+            wallet
+        }
     })
 }
 
@@ -56,7 +61,9 @@ export const updateWalletBalance: RequestHandler = async(req, res, next) => {
 
     res.status(200).json({
         status: 'SUCCESS',
-        data: wallet
+        data: {
+            wallet
+        }
     })
 }
 
@@ -67,5 +74,18 @@ export const deleteMyWallet: RequestHandler  = async(req, res, next) => {
     res.status(200).json({
         status: 'SUCCESS',
         data: null
+    })
+}
+
+export const getAllMyCurrentBalance: RequestHandler  = async(req, res, next) => {
+    const userId = req.currentUser!.userId
+
+    const allCurrentBalance = await walletService.getAllMyCurrentBalance(userId)
+
+    res.status(200).json({
+        status: 'SUCCESS',
+        data: {
+            allCurrentBalance
+        }
     })
 }

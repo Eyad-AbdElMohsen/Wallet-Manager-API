@@ -29,8 +29,16 @@ const transactionSchema = new mongoose.Schema({
 type CategoryKeys = keyof typeof Category;
 type TransactionTypeKeys = keyof typeof TransactionType;
 
-interface ITransaction extends Document{
+export interface ITransaction extends Document{
     _id: string;
+    walletId: string;
+    userId: string;
+    type: TransactionTypeKeys;
+    category: CategoryKeys;
+    amount: number;
+}
+
+export interface createTransactionData{
     walletId: string;
     userId: string;
     type: TransactionTypeKeys;

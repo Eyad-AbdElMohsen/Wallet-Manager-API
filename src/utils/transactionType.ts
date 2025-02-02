@@ -1,7 +1,7 @@
 export const TransactionType = {
-    credit: 'CREDIT',
-    debit: 'DEBIT'
-} as const;
+    credit: 'credit',
+    debit: 'debit'
+};
 
 export const Category = {
     salary: 'Salary',
@@ -16,4 +16,4 @@ export const Category = {
     investmentReturns: 'Investment Returns',
     donations: 'Donations',
     other: 'Other',
-} as const;
+};

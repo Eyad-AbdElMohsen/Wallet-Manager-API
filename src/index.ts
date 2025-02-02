@@ -6,6 +6,7 @@ import 'express-async-errors'
 import authRouter from "./routes/auth.route";
 import cors from 'cors'
 import walletRouter from "./routes/wallet.route";
+import transactionRouter from "./routes/transaction.route";
 
 export const app : Express = express();
 
@@ -18,6 +19,7 @@ app.use(cors())
 
 app.use(authRouter)
 app.use(walletRouter)
+app.use(transactionRouter)
 
 // glopal middleware
 app.all('*', notFoundMiddleware)

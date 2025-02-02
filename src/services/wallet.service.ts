@@ -41,4 +41,15 @@ export const updateWalletBalance = async(wallet: IWallet, newBalance: number) =>
     return wallet
 }
 
+export const getAllMyCurrentBalance = async(userId: string) => {
+    const allMyWallets = await Wallet.find({userId})
+
+    let balance = 0
+    for(let wallet of allMyWallets){
+        balance += wallet.currentBalance
+    }
+
+    return balance
+}
+
 export const deleteMyWallet = async(wallet: IWallet) => await Wallet.deleteOne({_id: wallet._id})

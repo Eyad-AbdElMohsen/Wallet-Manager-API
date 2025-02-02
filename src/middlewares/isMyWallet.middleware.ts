@@ -4,7 +4,7 @@ import ApiError from "../errors/api.error";
 
 
 export const isMyWallet: RequestHandler = async(req, res, next) => {
-    const walletId = req.params.walletId 
+    const walletId = req.params.walletId || req.body.walletId;
     //validation in walletId
     //
     
@@ -17,3 +17,4 @@ export const isMyWallet: RequestHandler = async(req, res, next) => {
     req.wallet = wallet
     next()
 } 
+

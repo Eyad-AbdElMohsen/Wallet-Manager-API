@@ -12,12 +12,14 @@ require("express-async-errors");
 const auth_route_1 = __importDefault(require("./routes/auth.route"));
 const cors_1 = __importDefault(require("cors"));
 const wallet_route_1 = __importDefault(require("./routes/wallet.route"));
+const transaction_route_1 = __importDefault(require("./routes/transaction.route"));
 exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json());
 exports.app.use(requestLogger_1.requestLogger);
 exports.app.use((0, cors_1.default)());
 exports.app.use(auth_route_1.default);
 exports.app.use(wallet_route_1.default);
+exports.app.use(transaction_route_1.default);
 // glopal middleware
 exports.app.all('*', notFound_middleware_1.default);
 //err handler
