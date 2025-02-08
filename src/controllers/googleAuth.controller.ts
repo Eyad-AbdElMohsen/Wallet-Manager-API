@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import ApiError from '../errors/api.error';
 import { generateAccessJWT, generateRefreshJWT, isRefreshTokenValid } from '../utils/generateToken';
 import * as googleAuthServices from '../services/googleAuth.service';
@@ -36,7 +36,14 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         new: true
     });  
 
-    // refresh token
+    // access & refresh token
+
+    const accessToken = await generateAccessJWT({
+        googleId,
+        email,
+        userId: user!._id
+    });
+
     const refreshToken = await generateRefreshJWT({        
         googleId,
         email,
@@ -50,27 +57,14 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000 
     });
     
-    // Redirect the user back to front login page
-    res.redirect('https://walletsmanager.netlify.app/home')
-}
-
-export const getSessionHandler: RequestHandler = async (req, res) => {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) throw new ApiError('No session found', 401);
-
-    const user = isRefreshTokenValid(refreshToken);
-    if (!user) throw new ApiError('Invalid session', 401);
-
-    const accessToken = await generateAccessJWT({
-        googleId: user.googleId,
-        email: user.email,
-        userId: user.userId
-    });
-
     res.status(200).json({
-        data: {
+        data:{
             user,
-            accessToken,
+            accessToken
         }
     })
-};
+}
+
+
+//redirect url is the forntend page
+//frontend send backend google code 
