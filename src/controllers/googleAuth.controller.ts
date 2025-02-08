@@ -36,13 +36,7 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         new: true
     });  
 
-    // create access & refresh token
-    const accessToken = await generateAccessJWT({
-        googleId,
-        email,
-        userId: user!._id
-    })
-
+    // refresh token
     const refreshToken = await generateRefreshJWT({        
         googleId,
         email,
