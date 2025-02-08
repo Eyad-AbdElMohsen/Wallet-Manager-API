@@ -1,7 +1,8 @@
+import mongoose from "mongoose";
 import { queryObjType } from "../controllers/wallet.controller";
 import ApiError from "../errors/api.error";
 import { createTransactionData, ITransaction, Transaction } from "../models/transaction.model";
-import { IWallet } from "../models/wallet.model";
+import { IWallet, Wallet } from "../models/wallet.model";
 import ApiFeatures from "../utils/ApiFeatures";
 import { TransactionType } from "../utils/transactionType";
 
@@ -15,7 +16,18 @@ export const createNewTransaction = async(data: createTransactionData, wallet: I
     const adjustmentFactor = type === TransactionType.credit ? 1 : -1;
     const newTransaction = new Transaction(data)
     wallet.currentBalance += adjustmentFactor * amount;
-    await Promise.all([wallet.save(), newTransaction.save()]);
+
+    const session = await mongoose.startSession()
+    try{
+        session.startTransaction()
+        const option = { session }
+        await wallet.save(option)
+        await newTransaction.save(option)
+        session.commitTransaction()
+    }catch(err){
+        session.abortTransaction()
+        throw new ApiError('Internal server error', 500)
+    }
     return newTransaction
 }
 

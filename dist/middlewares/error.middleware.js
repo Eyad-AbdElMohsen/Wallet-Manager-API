@@ -12,12 +12,6 @@ const errorMiddleware = (err, req, res, next) => {
         path = err.path;
         data = err.data;
     }
-    else if (err instanceof Error) {
-        message = err.message;
-    }
-    else if (typeof err == "string") {
-        message = err;
-    }
     res.status(code).json({
         status: 'Error',
         message: message,
