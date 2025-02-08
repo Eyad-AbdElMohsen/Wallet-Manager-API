@@ -57,7 +57,7 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     });
     
     // Redirect the user back to front login page
-    res.redirect('https://www.google.com')
+    res.redirect('https://walletsmanager.netlify.app/home')
 }
 
 export const getSessionHandler: RequestHandler = async (req, res) => {
