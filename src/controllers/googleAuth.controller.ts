@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import ApiError from '../errors/api.error';
-import { generateAccessJWT, generateRefreshJWT } from '../utils/generateToken';
+import { generateAccessJWT, generateRefreshJWT, isRefreshTokenValid } from '../utils/generateToken';
 import * as googleAuthServices from '../services/googleAuth.service';
 
 export const getGoogleOAuthHandler: RequestHandler = (req, res)=> {
@@ -56,11 +56,27 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000 
     });
     
-    // Redirect the user back to the client with the session and tokens
+    // Redirect the user back to front login page
+    res.redirect('https://www.google.com')
+}
+
+export const getSessionHandler: RequestHandler = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) throw new ApiError('No session found', 401);
+
+    const user = isRefreshTokenValid(refreshToken);
+    if (!user) throw new ApiError('Invalid session', 401);
+
+    const accessToken = await generateAccessJWT({
+        googleId: user.googleId,
+        email: user.email,
+        userId: user.userId
+    });
+
     res.status(200).json({
         data: {
-            user: googleUser,
+            user,
             accessToken,
         }
     })
-}
+};

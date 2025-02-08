@@ -16,10 +16,10 @@ export const verifyAccessToken = async(req: Request, res: Response, next: NextFu
 }
 
 export const verifyRefreshToken = async(req: Request, res: Response) => {
-    const authHeader = req.headers.authorization
-    if(!authHeader) throw new ApiError('token is required', 401, 'verifyToken.file')
-    const token = authHeader.split(' ')[1]
-    const user = isRefreshTokenValid(token)
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) throw new ApiError('No session found', 401);
+    const user = isRefreshTokenValid(refreshToken)
+    
     if(!user)throw new ApiError('token is invalid or expired', 401)
     req.currentUser = user
     const accessToken = generateAccessJWT({
