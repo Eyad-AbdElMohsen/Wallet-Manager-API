@@ -4,6 +4,7 @@ import notFoundMiddleware from "./middlewares/notFound.middleware";
 import { requestLogger } from "./middlewares/requestLogger";
 import 'express-async-errors'
 import authRouter from "./routes/auth.route";
+import cookieParser from "cookie-parser";
 import cors from 'cors'
 import walletRouter from "./routes/wallet.route";
 import transactionRouter from "./routes/transaction.route";
@@ -11,10 +12,15 @@ import transactionRouter from "./routes/transaction.route";
 export const app : Express = express();
 
 
-
+app.use(cookieParser());
 app.use(express.json())
 app.use(requestLogger)
-app.use(cors())
+app.use(
+    cors({
+        origin: "https://walletsmanager.netlify.app",
+        credentials: true,
+    })
+);
 
 
 app.use(authRouter)

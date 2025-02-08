@@ -10,13 +10,18 @@ const notFound_middleware_1 = __importDefault(require("./middlewares/notFound.mi
 const requestLogger_1 = require("./middlewares/requestLogger");
 require("express-async-errors");
 const auth_route_1 = __importDefault(require("./routes/auth.route"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const wallet_route_1 = __importDefault(require("./routes/wallet.route"));
 const transaction_route_1 = __importDefault(require("./routes/transaction.route"));
 exports.app = (0, express_1.default)();
+exports.app.use((0, cookie_parser_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use(requestLogger_1.requestLogger);
-exports.app.use((0, cors_1.default)());
+exports.app.use((0, cors_1.default)({
+    origin: "https://walletsmanager.netlify.app",
+    credentials: true,
+}));
 exports.app.use(auth_route_1.default);
 exports.app.use(wallet_route_1.default);
 exports.app.use(transaction_route_1.default);

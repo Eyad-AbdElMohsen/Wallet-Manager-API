@@ -10,7 +10,6 @@ authRouter.get('/api/sessions/oauth/google', googleOAuthHandler)
 
 authRouter.get('/api/sessions/me', getSessionHandler);
 
-
 authRouter.post('/tokens/refresh', verifyRefreshToken)
 
 export default authRouter
