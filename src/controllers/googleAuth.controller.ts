@@ -43,12 +43,19 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         userId: user!._id
     })
 
-    await generateRefreshJWT({        
+    const refreshToken = await generateRefreshJWT({        
         googleId,
         email,
         userId: user!._id
     })
 
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,  
+        secure: true,  
+        sameSite: "strict", 
+        maxAge: 7 * 24 * 60 * 60 * 1000 
+    });
+    
     // Redirect the user back to the client with the session and tokens
     res.status(200).json({
         data: {
