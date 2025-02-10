@@ -1,12 +1,15 @@
 import { RequestHandler } from "express";
 import ApiError from "../errors/api.error";
 import { getTransactionById } from "../services/transaction.service";
+import { getTransactionIdParam } from "../models/transaction.model";
 
 
 export const isMyTransaction: RequestHandler = async(req, res, next) => {
-    const transactionId = req.params.transactionId;
-    //validation in transactionId
-    //
+    const checkParam = getTransactionIdParam.safeParse(req.params)
+    if(!checkParam.success)
+        throw new ApiError("Validation failed", 400, 'createWallet controller' , checkParam.error.format());
+
+    const transactionId = checkParam.data.transactionId;
     
     const transaction = await getTransactionById(transactionId)
     const userId = transaction.userId

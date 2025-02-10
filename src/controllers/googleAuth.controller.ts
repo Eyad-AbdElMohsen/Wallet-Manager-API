@@ -14,7 +14,7 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     const code = req.query.code as string
     if (!code) 
         throw new ApiError('Authorization code is missing', 500)
-
+    
     // get google user by code
     const googleUser = await googleAuthServices.googleOAuthHandler(code)
     
@@ -37,7 +37,6 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     });  
 
     // access & refresh token
-
     const accessToken = await generateAccessJWT({
         googleId,
         email,
@@ -65,6 +64,3 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     })
 }
 
-
-//redirect url is the forntend page
-//frontend send backend google code 

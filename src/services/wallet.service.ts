@@ -1,16 +1,16 @@
-import { queryObjType } from "../controllers/wallet.controller";
 import ApiError from "../errors/api.error";
 import { IWallet, Wallet, createWalletData } from "../models/wallet.model";
+import { getWalletQuerySchema } from "../schemas/wallet.schema";
 import ApiFeatures from "../utils/ApiFeatures";
+import { z } from 'zod' 
 
-
-export const createWallet = async(data: createWalletData) => {
+export const createWallet = async(data: z.infer<typeof createWalletData> & { userId: string }) => {
     const newWallet = new Wallet(data)
     await newWallet.save()
     return newWallet
 }
 
-export const getMyWallets = async(userId: string, queryObject: queryObjType) => {
+export const getMyWallets = async(userId: string, queryObject: z.infer<typeof getWalletQuerySchema>) => {
 
     const features = new ApiFeatures<IWallet & Document>(Wallet.find({ userId }), queryObject)
     .filter()
@@ -21,7 +21,7 @@ export const getMyWallets = async(userId: string, queryObject: queryObjType) => 
     const wallets = await features.query;
 
     if(!wallets)
-        throw new ApiError('This user does not have any wallets yet', 404)
+        throw new ApiError('No Wallets!', 404)
 
     return wallets
 }

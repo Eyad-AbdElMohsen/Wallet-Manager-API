@@ -32,9 +32,3 @@ app.all('*', notFoundMiddleware)
 
 //err handler
 app.use(errorMiddleware)
-
-
-
-// dont forget zodd 
-//npm install zod-to-ts zod typescript
-//https://www.npmjs.com/package/zod-to-ts

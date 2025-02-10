@@ -1,20 +1,24 @@
 import * as walletService from '../services/wallet.service'
-import { ParsedQs } from "qs";
 import { RequestHandler } from 'express';
+import { createWalletData, updateWalletBalanceBody } from '../models/wallet.model';
+import ApiError from '../errors/api.error';
+import { getWalletQuerySchema } from '../schemas/wallet.schema';
 
-export const createWallet: RequestHandler = async(req, res, next) => {
-    // validation on data here 
-    //
+export const createWallet: RequestHandler = async(req, res) => {
+    const checkBody = createWalletData.safeParse(req.body)
+    if(!checkBody.success)
+        throw new ApiError("Validation failed", 400, 'createWallet controller' , checkBody.error.format());
 
     const userId = req.currentUser!.userId
-    const data = {
-        userId,
-        walletName: req.body.walletName,
-        currentBalance: req.body.currentBalance,
-        type: req.body.type,
-    }
+    const { walletName, currentBalance, type } = checkBody.data;
 
-    const newWallet = await walletService.createWallet(data)
+    const newWallet = await walletService.createWallet({
+        walletName,
+        currentBalance,
+        type,
+        userId,
+    })
+
     res.status(200).json({
         status: 'SUCCESS',
         data: {
@@ -23,14 +27,13 @@ export const createWallet: RequestHandler = async(req, res, next) => {
     })
 }
 
-export type queryObjType = Record<string, string[] | ParsedQs[] | string | ParsedQs >;
-
-export const getMyWallets: RequestHandler = async(req, res, next) => {
-    // validation in query parameters here
-    //
+export const getMyWallets: RequestHandler = async(req, res) => {
+    const checkQuery = getWalletQuerySchema.safeParse(req.query)
+    if(!checkQuery.success)
+        throw new ApiError("Validation failed", 400, 'createWallet controller' , checkQuery.error.format());
 
     const userId = req.currentUser!.userId
-    const wallets = await walletService.getMyWallets(userId, req.query as queryObjType)
+    const wallets = await walletService.getMyWallets(userId, checkQuery.data)
 
     res.status(200).json({
         status: 'SUCCESS',
@@ -40,7 +43,7 @@ export const getMyWallets: RequestHandler = async(req, res, next) => {
     })
 }
 
-export const getWalletById: RequestHandler = async(req, res, next) => {
+export const getWalletById: RequestHandler = async(req, res) => {
     const wallet = req.wallet!
     res.status(200).json({
         status: 'SUCCESS',
@@ -51,10 +54,12 @@ export const getWalletById: RequestHandler = async(req, res, next) => {
 }
 
 
-export const updateWalletBalance: RequestHandler = async(req, res, next) => {
-    const newBalance = req.body.newBalance
-    // validation in new balance
+export const updateWalletBalance: RequestHandler = async(req, res) => {
+    const checkBody = updateWalletBalanceBody.safeParse(req.body)
+    if(!checkBody.success)
+        throw new ApiError("Validation failed", 400, 'createWallet controller' , checkBody.error.format());
 
+    const newBalance = checkBody.data.newBalance
     const wallet = req.wallet!
 
     await walletService.updateWalletBalance(wallet, newBalance)

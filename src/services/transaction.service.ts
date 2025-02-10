@@ -1,22 +1,25 @@
 import mongoose from "mongoose";
-import { queryObjType } from "../controllers/wallet.controller";
 import ApiError from "../errors/api.error";
-import { createTransactionData, ITransaction, Transaction } from "../models/transaction.model";
-import { IWallet, Wallet } from "../models/wallet.model";
+import { createTransactionAllData, ITransaction, Transaction } from "../models/transaction.model";
+import { IWallet } from "../models/wallet.model";
 import ApiFeatures from "../utils/ApiFeatures";
-import { TransactionType } from "../utils/transactionType";
+import { z } from 'zod'
+import { transactionTypes } from "../utils/transactionType";
+import { getTransactionsQuerySchema } from "../schemas/transaction.schema";
 
 
-
-export const createNewTransaction = async(data: createTransactionData, wallet: IWallet) => {
+export const createNewTransaction = async(data: z.infer<typeof createTransactionAllData>, wallet: IWallet) => {
+    //checking if user has enough money for transaction
     const { type, amount } = data;
-    if (type === TransactionType.debit && wallet.currentBalance < amount) {
+    if (type === transactionTypes.debit && wallet.currentBalance < amount) {
         throw new ApiError('This wallet does not have enough funds for this transaction', 403);
     }
-    const adjustmentFactor = type === TransactionType.credit ? 1 : -1;
+    
+    const adjustmentFactor = type === transactionTypes.credit ? 1 : -1;
     const newTransaction = new Transaction(data)
     wallet.currentBalance += adjustmentFactor * amount;
 
+    // session for ACID :)
     const session = await mongoose.startSession()
     try{
         session.startTransaction()
@@ -31,7 +34,7 @@ export const createNewTransaction = async(data: createTransactionData, wallet: I
     return newTransaction
 }
 
-export const getTransactionHistory = async(walletId: string, queryObject: queryObjType) => {
+export const getTransactionHistory = async(walletId: string, queryObject: z.infer<typeof getTransactionsQuerySchema>) => {
     const features = new ApiFeatures<ITransaction & Document>(Transaction.find({ walletId }), queryObject)
     .filter()
     .sort()
