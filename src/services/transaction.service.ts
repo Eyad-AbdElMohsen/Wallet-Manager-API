@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import ApiError from "../errors/api.error";
-import { createTransactionAllData, ITransaction, Transaction } from "../models/transaction.model";
+import { createTransactionAllData } from "../schemas/transaction.schema";
 import { IWallet } from "../models/wallet.model";
 import ApiFeatures from "../utils/ApiFeatures";
 import { z } from 'zod'
 import { transactionTypes } from "../utils/transactionType";
 import { getTransactionsQuerySchema } from "../schemas/transaction.schema";
+import { ITransaction, Transaction } from "../models/transaction.model";
 
 
 export const createNewTransaction = async(data: z.infer<typeof createTransactionAllData>, wallet: IWallet) => {

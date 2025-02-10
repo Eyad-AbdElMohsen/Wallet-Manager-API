@@ -1,8 +1,7 @@
 import mongoose, { Document, Model } from "mongoose"
 import env from "../env"
-import { transactionTypeSchema, categories, transactionTypes, categorySchema } from "../utils/transactionType"
+import {  categories, transactionTypes } from "../utils/transactionType"
 import { v4 as uuidv4 } from "uuid";
-import { z } from 'zod'
 
 const DB_URL = env.DB_URL
 mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
@@ -37,24 +36,6 @@ export interface ITransaction extends Document{
     category: CategoryKeys;
     amount: number;
 }
-
-
-export const createTransactionBody = z.object({
-    type: transactionTypeSchema,
-    category: categorySchema,
-    amount: z.number().positive(
-        'Amount must be positive. Use type "debit" for deductions.'
-    )
-})
-
-export const createTransactionAllData = createTransactionBody.extend({
-    walletId: z.string(),
-    userId: z.string(),
-})
-
-export const getTransactionIdParam = z.object({
-    transactionId: z.string()
-})
 
 
 export const Transaction: Model<ITransaction> = mongoose.model<ITransaction>('Transaction', transactionSchema);

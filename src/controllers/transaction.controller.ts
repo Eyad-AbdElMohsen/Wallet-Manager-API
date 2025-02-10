@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as transactionService from '../services/transaction.service'
-import { createTransactionBody } from "../models/transaction.model";
+import { createTransactionBody } from "../schemas/transaction.schema";
 import ApiError from "../errors/api.error";
 import { getTransactionsQuerySchema } from "../schemas/transaction.schema";
 

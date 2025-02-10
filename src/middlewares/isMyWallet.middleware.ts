@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { getWalletById } from "../services/wallet.service";
 import ApiError from "../errors/api.error";
-import { getWalletIdParam } from "../models/wallet.model";
+import { getWalletIdParam } from "../schemas/wallet.schema";
 
 
 export const isMyWalletFromParam: RequestHandler = async(req, res, next) => {

@@ -1,6 +1,6 @@
 import ApiError from "../errors/api.error";
-import { IWallet, Wallet, createWalletData } from "../models/wallet.model";
-import { getWalletQuerySchema } from "../schemas/wallet.schema";
+import { IWallet, Wallet } from "../models/wallet.model";
+import { createWalletData, getWalletQuerySchema } from "../schemas/wallet.schema";
 import ApiFeatures from "../utils/ApiFeatures";
 import { z } from 'zod' 
 

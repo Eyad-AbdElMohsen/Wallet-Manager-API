@@ -1,6 +1,6 @@
 import * as walletService from '../services/wallet.service'
 import { RequestHandler } from 'express';
-import { createWalletData, updateWalletBalanceBody } from '../models/wallet.model';
+import { createWalletData, updateWalletBalanceBody } from '../schemas/wallet.schema';
 import ApiError from '../errors/api.error';
 import { getWalletQuerySchema } from '../schemas/wallet.schema';
 

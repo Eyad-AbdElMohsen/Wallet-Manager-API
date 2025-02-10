@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import ApiError from "../errors/api.error";
 import { getTransactionById } from "../services/transaction.service";
-import { getTransactionIdParam } from "../models/transaction.model";
+import { getTransactionIdParam } from "../schemas/transaction.schema";
 
 
 export const isMyTransaction: RequestHandler = async(req, res, next) => {

@@ -1,8 +1,7 @@
 import mongoose, { Document, Model } from "mongoose"
 import env from "../env"
 import { v4 as uuidv4 } from "uuid";
-import { z } from 'zod'
-import { walletType, walletTypeSchema } from "../utils/walletType";
+import { walletType } from "../utils/walletType";
 
 const DB_URL = env.DB_URL
 mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
@@ -29,18 +28,5 @@ export interface IWallet extends Document {
     userId: string
 }
 
-export const createWalletData = z.object({
-    walletName: z.string().min(3, 'wallet name must be at least 3 chars'),
-    currentBalance: z.number().positive('current balance must be a positive number'),
-    type: walletTypeSchema
-})
-
-export const updateWalletBalanceBody = z.object({ 
-    newBalance: z.number().positive('current balance must be a positive number')
-})
-
-export const getWalletIdParam = z.object({
-    walletId: z.string()
-})
 
 export const Wallet: Model<IWallet> = mongoose.model<IWallet>('Wallet', walletSchema);
