@@ -1,6 +1,6 @@
 import { walletTypeSchema } from "../utils/walletType";
 import { arrayQueryField, getQuerySchema } from "./utility.schema";
-import { z }from 'zod'
+import { z } from 'zod'
 
 export const getWalletQuerySchema = getQuerySchema.extend({
     walletType: walletTypeSchema,
