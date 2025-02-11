@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const getQuerySchema = z.object({
-    sort: z.enum(["asc", "desc"]).optional(),
+    sort: z.string().optional(),
     limit: z.coerce.number().min(1).optional(),
     page: z.coerce.number().min(1).optional(),
 }).passthrough();
