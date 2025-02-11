@@ -82,17 +82,9 @@ authRouter.get('/oauth/google', getGoogleOAuthHandler)
  *                          type: string
  *                          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjExNjIzNDIyNTYwODQ5MDQ5NDc3NiIsImVtYWlsIjoiYWhtZWRleWFkODRAZ21haWwuY29tIiwidXNlcklkIjoiNjI4MjZkMjUtN2JlMC00ZmYzLTk2ZGMtZDllMGZmZDM1NTNlIiwiaWF0IjoxNzM5MjM2NTE0LCJleHAiOjE3MzkyNTQ1MTR9._Bnp9Vpi-iet5bk3OMUyt8s3shRza5pntyVYpzVbgkE"
  *       400:
- *         description: Bad request - missing or invalid parameters
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Authorization code is missing" 
+ *         $ref: "#/components/responses/BadRequest"
  *       403:
- *         description: Forbidden - Email is not verified
+ *         description: Email is not verified
  *         content:
  *           application/json:
  *             schema:
@@ -101,16 +93,6 @@ authRouter.get('/oauth/google', getGoogleOAuthHandler)
  *                 message:
  *                   type: string
  *                   example: "Email is not verified"
- *       500:
- *         description: There is internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Internal server error"
 */
 
 authRouter.post('/oauth/google/login', googleOAuthHandler)
@@ -153,26 +135,8 @@ authRouter.post('/oauth/google/login', googleOAuthHandler)
  *                 accessToken:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjExNjIzNDIyNTYwODQ5MDQ5NDc3NiIsImVtYWlsIjoiYWhtZWRleWFkODRAZ21haWwuY29tIiwidXNlcklkIjoiNjI4MjZkMjUtN2JlMC00ZmYzLTk2ZGMtZDllMGZmZDM1NTNlIiwiaWF0IjoxNzM5MjM2NTE0LCJleHAiOjE3MzkyNTQ1MTR9._Bnp9Vpi-iet5bk3OMUyt8s3shRza5pntyVYpzVbgkE"
- *       400:
- *         description: Bad request - missing or invalid refresh token.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Refresh token is missing from cookies"
  *       401:
- *         description: Unauthorized - Refresh token is invalid or expired.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Token is invalid or expired"
+ *         $ref: "#/components/responses/Unauthorized"
  */
 
 authRouter.post('/tokens/refresh', verifyRefreshToken)

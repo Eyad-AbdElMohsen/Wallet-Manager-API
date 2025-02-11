@@ -15,7 +15,7 @@ export const isMyWalletFromParam: RequestHandler = async(req, res, next) => {
     const userId = wallet.userId
 
     if(userId != req.currentUser!.userId)
-        throw new ApiError('This user does not have access for this wallet', 403)
+        throw new ApiError('This user does not have access for this action', 403)
 
     req.wallet = wallet
     next()
@@ -32,7 +32,7 @@ export const isMyWalletFromBody: RequestHandler = async(req, res, next) => {
     const userId = wallet.userId
 
     if(userId != req.currentUser!.userId)
-        throw new ApiError('This user does not have access for this wallet', 403)
+        throw new ApiError('This user does not have access for this action', 403)
 
     req.wallet = wallet
     next()

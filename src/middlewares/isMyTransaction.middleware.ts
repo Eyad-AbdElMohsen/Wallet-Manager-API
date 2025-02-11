@@ -15,7 +15,7 @@ export const isMyTransaction: RequestHandler = async(req, res, next) => {
     const userId = transaction.userId
 
     if(userId != req.currentUser!.userId)
-        throw new ApiError('This user does not have access for this wallet', 403)
+        throw new ApiError('This user does not have access for this action', 403)
 
     req.transaction = transaction
     next()
