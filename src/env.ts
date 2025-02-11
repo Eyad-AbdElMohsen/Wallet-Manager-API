@@ -11,4 +11,5 @@ export default{
     googleOAuthRedirectUrl:  env.get('googleOAuthRedirectUrl').required().asString(),
     JWT_SECRET_REFRESH: env.get('JWT_SECRET_REFRESH').required().asString(),
     JWT_SECRET_ACCESS: env.get('JWT_SECRET_ACCESS').required().asString(),
+    NODE_ENV: env.get('NODE_ENV').required().asString(),
 }
