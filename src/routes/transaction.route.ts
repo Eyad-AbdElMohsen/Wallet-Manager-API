@@ -10,7 +10,7 @@ const transactionRouter = Router()
  * @swagger
  * tags:
  *   name: Transactions
- *   description: Transactions' routes
+ *   description: Transaction management routes
  */
 
 /**

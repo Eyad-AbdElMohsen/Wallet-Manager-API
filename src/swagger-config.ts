@@ -1,7 +1,4 @@
 import { Options } from "swagger-jsdoc";
-import env from "./env";
-
-const isDev = env.NODE_ENV === "development";
 
 export const swaggerOptions: Options = {
     definition: {
@@ -27,14 +24,8 @@ export const swaggerOptions: Options = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    status: {
-                                        type: "string",
-                                        example: "Error",
-                                    },
-                                    message: {
-                                        type: "string",
-                                        example: "Validation failed",
-                                    },
+                                    status: { type: "string", example: "Error" },
+                                    message: { type: "string", example: "Validation failed" },
                                 },
                             },
                         },
@@ -47,22 +38,29 @@ export const swaggerOptions: Options = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    status: {
-                                        type: "string",
-                                        example: "Error",
-                                    },
-                                    message: {
-                                        type: "string",
-                                        example: "Token is invalid or expired",
-                                    },
+                                    status: { type: "string", example: "Error" },
+                                    message: { type: "string", example: "Token is invalid or expired" },
                                 },
                             },
                         },
                     },
                 },
                 Forbidden: {
-                    description:
-                        "Forbidden - You don't have permission to access this resource",
+                    description: "Forbidden - You don't have permission to access this resource",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    status: { type: "string", example: "Error" },
+                                    message: { type: "string", example: "This user does not have access for this action" },
+                                },
+                            },
+                        },
+                    },
+                },
+                NotFound: {
+                    description: "Resource not found",
                     content: {
                         "application/json": {
                             schema: {
@@ -74,7 +72,7 @@ export const swaggerOptions: Options = {
                                     },
                                     message: {
                                         type: "string",
-                                        example: "This user does not have access for this action",
+                                        example: "Requested resource not found",
                                     },
                                 },
                             },
@@ -82,8 +80,40 @@ export const swaggerOptions: Options = {
                     },
                 },
             },
-            security: [{ BearerAuth: [] }],
+            parameters: {
+                Sort: {
+                    in: "query",
+                    name: "sort",
+                    schema: { type: "string" },
+                    description: "Sort by a specific field (e.g., createdAt or -balance)",
+                },
+                Limit: {
+                    in: "query",
+                    name: "limit",
+                    schema: { type: "integer", example: 10 },
+                    description: "Limit the number of results returned",
+                },
+                Page: {
+                    in: "query",
+                    name: "page",
+                    schema: { type: "integer", example: 1 },
+                    description: "Specify the page number for pagination",
+                },
+                Fields: {
+                    in: "query",
+                    name: "fields",
+                    schema: { type: "string" },
+                    description: "Select specific fields to return (e.g., name,balance)",
+                },
+                Filter: {
+                    in: "query",
+                    name: "filter",
+                    schema: { type: "string" },
+                    description: "Apply filters, e.g., { 'balance': { '$gte': 1000 } }",
+                },
+            },
         },
+        security: [{ BearerAuth: [] }],
     },
     apis: ["src/routes/*.ts"],
 };

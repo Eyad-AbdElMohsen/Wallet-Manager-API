@@ -30,7 +30,7 @@ export const getWalletById = async(id: string) => {
     const wallet = await Wallet.findById(id)
 
     if(!wallet)
-        throw new ApiError('This wallet id is invalid', 401)
+        throw new ApiError('Wallet is Not Fount', 404)
 
     return wallet
 }

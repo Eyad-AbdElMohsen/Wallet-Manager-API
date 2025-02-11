@@ -66,9 +66,7 @@ export const updateWalletBalance: RequestHandler = async(req, res) => {
 
     res.status(200).json({
         status: 'SUCCESS',
-        data: {
-            wallet
-        }
+        message: 'Wallet balance updated successfully'
     })
 }
 
@@ -78,7 +76,7 @@ export const deleteMyWallet: RequestHandler  = async(req, res, next) => {
 
     res.status(200).json({
         status: 'SUCCESS',
-        data: null
+        message: 'Wallet deleted successfully'
     })
 }
 
