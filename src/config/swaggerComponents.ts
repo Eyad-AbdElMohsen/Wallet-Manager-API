@@ -122,6 +122,20 @@ export const swaggerComponents = {
                 },
             },
         },
+        TokenRequiredWarning: {
+            description: "⚠️🚨 **Important Warning**: You must include a Bearer token in the request header for authentication.",
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            status: { type: "string", example: "Warning" },
+                            message: { type: "string", example: "Token is required for authentication" },
+                        },
+                    },
+                }
+            },
+        },
     },
     parameters: {
         Sort: {

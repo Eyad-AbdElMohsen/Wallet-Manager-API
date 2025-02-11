@@ -28,7 +28,16 @@ const walletRouter = Router()
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Creates a new wallet for the authenticated user.
+ *     description: |
+ *       Creates a new wallet for the authenticated user.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response. 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Wallet"   
  *     responses:
  *       200:
  *         description: Wallet created successfully.
@@ -51,7 +60,10 @@ walletRouter.post('/wallets', verifyAccessToken, walletController.createWallet)
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Getting all wallets belonging to the authenticated user with filtering, sorting, and pagination options.
+ *     description: |
+ *       Getting all wallets belonging to the authenticated user with filtering, sorting, and pagination options.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response.
  *     parameters:
  *       - $ref: "#/components/parameters/Sort"
  *       - $ref: "#/components/parameters/Limit"
@@ -90,7 +102,10 @@ walletRouter.get('/wallets', verifyAccessToken, walletController.getMyWallets)
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Retrieve a specific wallet by its ID. Only the owner can access it.
+ *     description: |
+ *       Retrieve a specific wallet by its ID. Only the owner can access it.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response.
  *     parameters:
  *       - name: walletId
  *         in: path
@@ -125,7 +140,10 @@ walletRouter.get('/wallets', verifyAccessToken, walletController.getMyWallets)
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Update the balance of a specific wallet. Only the owner can update it.
+ *     description: |
+ *       Update the balance of a specific wallet. Only the owner can update it.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response.
  *     parameters:
  *       - name: walletId
  *         in: path
@@ -154,13 +172,16 @@ walletRouter.get('/wallets', verifyAccessToken, walletController.getMyWallets)
  *         $ref: "#/components/responses/Forbidden"
  *       404:
  *         $ref: "#/components/responses/NotFound"
- *
+ *  
  *   delete:
  *     summary: Delete a wallet
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Delete a specific wallet. Only the owner can delete it.
+ *     description: |
+ *       Delete a specific wallet. Only the owner can delete it.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response. 
  *     parameters:
  *       - name: walletId
  *         in: path
@@ -192,7 +213,10 @@ walletRouter.delete('/wallets/:walletId', verifyAccessToken, isMyWalletFromParam
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Retrieve the total balance of all wallets belonging to the authenticated user.
+ *     description: | 
+ *       Retrieve the total balance of all wallets belonging to the authenticated user.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response. 
  *     responses:
  *       200:
  *         description: Successfully retrieved total balance.
@@ -221,7 +245,10 @@ walletRouter.get('/wallets/balance/me', verifyAccessToken, walletController.getA
  *     security:
  *       - BearerAuth: []
  *     tags: [Wallets]
- *     description: Retrieve the transaction history of a specific wallet. Only the owner can view it.
+ *     description: |
+ *       Retrieve the transaction history of a specific wallet. Only the owner can view it.
+ *  
+ *       🚨⚠️ **Important**: You must include a Bearer token in the request header for authentication.  Without it, you'll receive a **401 Unauthorized** response. 
  *     parameters:
  *       - $ref: "#/components/parameters/Sort"
  *       - $ref: "#/components/parameters/Limit"

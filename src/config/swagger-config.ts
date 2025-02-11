@@ -10,7 +10,7 @@ export const swaggerOptions: Options = {
       description: "API documentation for Wallet-Manager API",
     },
     components: swaggerComponents,
-    security: [{ BearerAuth: [] }],
+    security: [{  "BearerAuth": [] }],
   },
   apis: ["src/routes/*.ts"],
 };
