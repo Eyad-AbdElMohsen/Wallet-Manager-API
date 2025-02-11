@@ -64,27 +64,14 @@ authRouter.get('/oauth/google', getGoogleOAuthHandler)
  *               type: object
  *               properties:
  *                 user:
- *                   type: object
- *                   properties:
- *                      name:
- *                          type: string
- *                          example: "Eyad"
- *                      picture:
- *                          type: string
- *                          example: "https://lh3.googleusercontent.com/a/ACg8ocLAEiHKc3p7rUJsFlVtZhnOme7abKqu4YqeIBDFltpc30uH9Q=s96-c"
- *                      email:
- *                          type: string
- *                          example: "eyad@eyad.com"
- *                      googleId:
- *                          type: string
- *                          example: "116234225108290474999"
+ *                    $ref: "#/components/schemas/User"
  *                 accessToken:
- *                          type: string
- *                          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjExNjIzNDIyNTYwODQ5MDQ5NDc3NiIsImVtYWlsIjoiYWhtZWRleWFkODRAZ21haWwuY29tIiwidXNlcklkIjoiNjI4MjZkMjUtN2JlMC00ZmYzLTk2ZGMtZDllMGZmZDM1NTNlIiwiaWF0IjoxNzM5MjM2NTE0LCJleHAiOjE3MzkyNTQ1MTR9._Bnp9Vpi-iet5bk3OMUyt8s3shRza5pntyVYpzVbgkE"
+ *                    type: string
+ *                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjExNjIzNDIyNTYwODQ5MDQ5NDc3NiIsImVtYWlsIjoiYWhtZWRleWFkODRAZ21haWwuY29tIiwidXNlcklkIjoiNjI4MjZkMjUtN2JlMC00ZmYzLTk2ZGMtZDllMGZmZDM1NTNlIiwiaWF0IjoxNzM5MjM2NTE0LCJleHAiOjE3MzkyNTQ1MTR9._Bnp9Vpi-iet5bk3OMUyt8s3shRza5pntyVYpzVbgkE"
  *       400:
  *         $ref: "#/components/responses/BadRequest"
  *       403:
- *         description: Email is not verified
+ *         description: .Email is not verified
  *         content:
  *           application/json:
  *             schema:
@@ -121,17 +108,7 @@ authRouter.post('/oauth/google/login', googleOAuthHandler)
  *               type: object
  *               properties:
  *                 user:
- *                   type: object
- *                   properties:
- *                     userId:
- *                       type: string
- *                       example: "156189181986161198123"
- *                     email:
- *                       type: string
- *                       example: "eyad@eyad.com"
- *                     googleId:
- *                       type: string
- *                       example: "116234225108290474999"
+ *                    $ref: "#/components/schemas/JwtPayload"
  *                 accessToken:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnb29nbGVJZCI6IjExNjIzNDIyNTYwODQ5MDQ5NDc3NiIsImVtYWlsIjoiYWhtZWRleWFkODRAZ21haWwuY29tIiwidXNlcklkIjoiNjI4MjZkMjUtN2JlMC00ZmYzLTk2ZGMtZDllMGZmZDM1NTNlIiwiaWF0IjoxNzM5MjM2NTE0LCJleHAiOjE3MzkyNTQ1MTR9._Bnp9Vpi-iet5bk3OMUyt8s3shRza5pntyVYpzVbgkE"

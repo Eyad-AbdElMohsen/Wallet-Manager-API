@@ -35,34 +35,7 @@ const walletRouter = Router()
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: "SUCCESS"
- *                 wallet:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                     userId:
- *                       type: string
- *                       example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                     walletName:
- *                       type: string
- *                       example: "My Wallet"
- *                     currentBalance:
- *                       type: number
- *                       example: 1000.50
- *                     type:
- *                       type: string
- *                       enum:
- *                          - cash
- *                          - bank
- *                          - crypto
- *                          - e_wallet
- *                       example: cash
+ *               $ref: "#/components/schemas/Wallet"  
  *       400:
  *         $ref: "#/components/responses/BadRequest"
  *       401:
@@ -99,23 +72,7 @@ walletRouter.post('/wallets', verifyAccessToken, walletController.createWallet)
  *                 wallets:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                         id:
- *                           type: string
- *                           example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                         userId:
- *                           type: string
- *                           example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                         walletName:
- *                           type: string
- *                           example: "My Wallet"
- *                         currentBalance:
- *                           type: number
- *                           example: 1000.50
- *                         type:
- *                           type: string
- *                           example: cash
+ *                    $ref: "#/components/schemas/Wallet"  
  *       400:
  *         $ref: "#/components/responses/BadRequest"
  *       401:
@@ -153,23 +110,7 @@ walletRouter.get('/wallets', verifyAccessToken, walletController.getMyWallets)
  *                   type: string
  *                   example: "SUCCESS"
  *                 wallet:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                     userId:
- *                       type: string
- *                       example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                     walletName:
- *                       type: string
- *                       example: "Personal Wallet"
- *                     currentBalance:
- *                       type: number
- *                       example: 5000
- *                     type:
- *                       type: string
- *                       example: bank
+ *                   $ref: "#/components/schemas/Wallet"  
  *       400:
  *         $ref: "#/components/responses/BadRequest"
  *       401:
@@ -307,23 +248,7 @@ walletRouter.get('/wallets/balance/me', verifyAccessToken, walletController.getA
  *                 transactions:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                       userId:
- *                         type: string
- *                         example: "65d2f1bfe1b1c2a7f4e6b7c9"
- *                       amount:
- *                         type: number
- *                         example: 150.50
- *                       category:
- *                         type: string
- *                         example: "Food"
- *                       type:
- *                         type: string
- *                         example: debit
+ *                     $ref: "#/components/schemas/Transaction"  
  *       400:
  *         $ref: "#/components/responses/BadRequest"
  *       401:

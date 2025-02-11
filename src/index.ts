@@ -10,7 +10,7 @@ import walletRouter from "./routes/wallet.route";
 import transactionRouter from "./routes/transaction.route";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
-import { swaggerOptions } from './swagger-config';
+import { swaggerOptions } from './config/swagger-config';
 
 export const app : Express = express();
 
