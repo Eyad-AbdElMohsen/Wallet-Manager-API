@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(requestLogger)
 app.use(
     cors({
-        origin: "https://walletsmanager.netlify.app",
+        origin: '*',
         credentials: true,
     })
 );
