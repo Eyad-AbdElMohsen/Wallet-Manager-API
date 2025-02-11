@@ -13,12 +13,12 @@ export const googleOAuthHandler = async (code: string) => {
     // get id and access token with the code 
     const data = await getGoogleUserTokens(code);
     if(!data.tokens.id_token)
-        throw new ApiError('id_token from google is missing', 500)
+        throw new ApiError('internal server error', 500)
     
     // get the user by tokens 
     const googleUser = await getGoogleUser(data);
     if(!googleUser)
-        throw new ApiError('Google user is missing', 500)
+        throw new ApiError('internal server error', 500)
     
     return googleUser 
 }

@@ -13,7 +13,7 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     // get code from qs
     const code = req.query.code as string
     if (!code) 
-        throw new ApiError('Authorization code is missing', 500)
+        throw new ApiError('Authorization code is missing', 400)
     
     // get google user by code
     const googleUser = await googleAuthServices.googleOAuthHandler(code)
@@ -22,7 +22,7 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     const email = googleUser.email!
     const googleId = googleUser.sub
 
-	if(!googleUser.email_verified) throw new ApiError('google acc is not verified', 403)
+	if(!googleUser.email_verified) throw new ApiError('Email is not verified', 403)
     const user = await googleAuthServices.upsertUser({ // query
         email
     }, { // update

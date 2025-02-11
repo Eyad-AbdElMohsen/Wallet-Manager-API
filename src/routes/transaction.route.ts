@@ -7,6 +7,7 @@ import { isMyTransaction } from "../middlewares/isMyTransaction.middleware";
 const transactionRouter = Router() 
 
 transactionRouter.post('/transactions', verifyAccessToken, isMyWalletFromBody, transactionController.createNewTransaction)
+
 transactionRouter.get('/transactions/:transactionId', verifyAccessToken, isMyTransaction, transactionController.getMyTransaction)
 
 
