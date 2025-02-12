@@ -34,8 +34,6 @@ export const createNewTransaction = async(data: z.infer<typeof createTransaction
     }catch(err) {
         session.abortTransaction() // Rollback if an error occurs
         throw new ApiError('Internal server error', 500)
-    } finally {
-        session.endSession();
     }
     return newTransaction
 }
