@@ -12,6 +12,7 @@ export const isMyTransaction: RequestHandler = async(req, res, next) => {
     const transactionId = checkParam.data.transactionId;
     
     const transaction = await getTransactionById(transactionId)
+    
     const userId = transaction.userId
 
     if(userId != req.currentUser!.userId)

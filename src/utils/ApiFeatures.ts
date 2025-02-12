@@ -39,7 +39,7 @@ class ApiFeatures<T extends Document> {
     }
 
     sort() {
-        let sortBy = this.queryString.sort.split(',').join(" ")
+        const sortBy = this.queryString.sort.split(',').join(" ")
         this.query = this.query.sort(sortBy)
         return this;
     }
@@ -53,13 +53,10 @@ class ApiFeatures<T extends Document> {
     }
 
     limitFields() {
-        let fields = this.queryString.fields.split(',').join(" ");
+        const fields = this.queryString.fields.split(',').join(" ");
         this.query = this.query.select(fields);
         return this;
     }
-
 }
+
 export default ApiFeatures;
-
-
-

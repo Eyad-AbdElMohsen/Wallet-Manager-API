@@ -12,6 +12,7 @@ export const isMyWalletFromParam: RequestHandler = async(req, res, next) => {
     const walletId = checkParam.data.walletId;
 
     const wallet = await getWalletById(walletId)
+
     const userId = wallet.userId
 
     if(userId != req.currentUser!.userId)
@@ -29,6 +30,7 @@ export const isMyWalletFromBody: RequestHandler = async(req, res, next) => {
     const walletId = checkBody.data.walletId;
 
     const wallet = await getWalletById(walletId)
+
     const userId = wallet.userId
 
     if(userId != req.currentUser!.userId)

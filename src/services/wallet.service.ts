@@ -1,8 +1,8 @@
 import ApiError from "../errors/api.error";
-import { IWallet, Wallet } from "../models/wallet.model";
-import { createWalletData, getWalletQuerySchema } from "../schemas/wallet.schema";
 import ApiFeatures from "../utils/ApiFeatures";
 import { z } from 'zod' 
+import { IWallet, Wallet } from "../models/wallet.model";
+import { createWalletData, getWalletQuerySchema } from "../schemas/wallet.schema";
 
 export const createWallet = async(data: z.infer<typeof createWalletData> & { userId: string }) => {
     const newWallet = new Wallet(data)
@@ -11,7 +11,6 @@ export const createWallet = async(data: z.infer<typeof createWalletData> & { use
 }
 
 export const getMyWallets = async(userId: string, queryObject: z.infer<typeof getWalletQuerySchema>) => {
-
     const features = new ApiFeatures<IWallet & Document>(Wallet.find({ userId }), queryObject)
     .filter()
     .sort()
@@ -20,8 +19,8 @@ export const getMyWallets = async(userId: string, queryObject: z.infer<typeof ge
     
     const wallets = await features.query;
 
-    if(!wallets)
-        throw new ApiError('No Wallets!', 404)
+    if(!wallets || wallets.length === 0)
+        throw new ApiError('No wallets found!', 404)
 
     return wallets
 }
@@ -44,12 +43,9 @@ export const updateWalletBalance = async(wallet: IWallet, newBalance: number) =>
 export const getAllMyCurrentBalance = async(userId: string) => {
     const allMyWallets = await Wallet.find({userId})
 
-    let balance = 0
-    for(let wallet of allMyWallets){
-        balance += wallet.currentBalance
-    }
+    const totalBalance = allMyWallets.reduce((sum, wallet) => sum + wallet.currentBalance, 0);
 
-    return balance
+    return totalBalance
 }
 
 export const deleteMyWallet = async(wallet: IWallet) => await Wallet.deleteOne({_id: wallet._id})

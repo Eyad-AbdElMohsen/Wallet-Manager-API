@@ -12,5 +12,5 @@ export const swaggerOptions: Options = {
     components: swaggerComponents,
     security: [{  "BearerAuth": [] }],
   },
-  apis: ["src/routes/*.ts"],
+  apis: ["src/routes/*.ts", "src/docs/*.ts"],
 };

@@ -1,12 +1,12 @@
+import { z } from 'zod' 
 import { categorySchema, transactionTypeSchema } from "../utils/transactionType";
 import { arrayQueryField, getQuerySchema } from "./utility.schema";
-import { z } from 'zod' 
 
 export const getTransactionsQuerySchema = getQuerySchema.extend({
     type: transactionTypeSchema,
     category: categorySchema,
     fields: arrayQueryField(["_id", "walletId", "userId", "type", "category", "amount"])
-}).partial();
+}).partial(); // That means optional
 
 
 export const createTransactionBody = z.object({

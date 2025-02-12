@@ -6,37 +6,35 @@ import * as googleAuthServices from '../services/googleAuth.service';
 export const getGoogleOAuthHandler: RequestHandler = (req, res)=> {
     const scope = 'email profile'
     const oauthUrl = googleAuthServices.getGoogleAuthHandler(scope)
+
     res.status(200).json({ oauthUrl });
 }
 
 export const googleOAuthHandler: RequestHandler = async(req, res) => {
-    // get code from qs
+    // Extract authorization code from query parameters
     const code = req.query.code as string
     if (!code) 
         throw new ApiError('Authorization code is missing', 400)
     
-    // get google user by code
+    // Fetch user data from Google using the authorization code
     const googleUser = await googleAuthServices.googleOAuthHandler(code)
     
+	if(!googleUser.email_verified) throw new ApiError('Email is not verified', 403)
+
     // upsert (update or insert) the user
     const email = googleUser.email!
     const googleId = googleUser.sub
 
-	if(!googleUser.email_verified) throw new ApiError('Email is not verified', 403)
-    const user = await googleAuthServices.upsertUser({ // query
-        email
-    }, { // update
+    const user = await googleAuthServices.upsertUser(
+    { email }, // Query: find user by email
+    {  // Update user data
         name: googleUser.name,
         picture: googleUser.picture,
         email,
         googleId,
-        
-    }, { // options
-        upsert: true,
-        new: true
-    });  
+    }, { upsert: true, new: true });  // Upsert options
 
-    // access & refresh token
+    // Generate Access Token and Refresh Token
     const accessToken = await generateAccessJWT({
         googleId,
         email,
@@ -48,7 +46,8 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
         email,
         userId: user!._id
     })
-
+    
+    // Store the Refresh Token in HTTP-only cookies
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,  
         secure: true,  

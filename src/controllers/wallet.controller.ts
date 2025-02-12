@@ -33,6 +33,7 @@ export const getMyWallets: RequestHandler = async(req, res) => {
         throw new ApiError("Validation failed", 400, 'createWallet controller' , checkQuery.error.format());
 
     const userId = req.currentUser!.userId
+
     const wallets = await walletService.getMyWallets(userId, checkQuery.data)
 
     res.status(200).json({
@@ -70,8 +71,9 @@ export const updateWalletBalance: RequestHandler = async(req, res) => {
     })
 }
 
-export const deleteMyWallet: RequestHandler  = async(req, res, next) => {
+export const deleteMyWallet: RequestHandler  = async(req, res) => {
     const wallet = req.wallet!
+
     await walletService.deleteMyWallet(wallet)
 
     res.status(200).json({

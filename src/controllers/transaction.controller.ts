@@ -11,6 +11,7 @@ export const createNewTransaction: RequestHandler = async(req, res) => {
 
     const {type, category, amount} = checkBody.data
     const userId = req.currentUser!.userId
+
     const wallet = req.wallet!
     const oldBalance = wallet.currentBalance
     const walletId = wallet._id
@@ -18,7 +19,6 @@ export const createNewTransaction: RequestHandler = async(req, res) => {
     const newTransaction = await transactionService.createNewTransaction({
         userId, walletId, type, category, amount
     }, wallet)
-
 
     res.status(200).json({
         status: 'SUCCESS',
@@ -33,6 +33,7 @@ export const createNewTransaction: RequestHandler = async(req, res) => {
 
 export const getMyTransaction: RequestHandler = async(req, res) => {
     const transaction = req.transaction!
+
     res.status(200).json({
         status: 'SUCCESS',
         data: {

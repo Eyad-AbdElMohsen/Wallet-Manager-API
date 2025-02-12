@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 import ApiError from "../errors/api.error";
-import { createTransactionAllData } from "../schemas/transaction.schema";
-import { IWallet } from "../models/wallet.model";
 import ApiFeatures from "../utils/ApiFeatures";
 import { z } from 'zod'
+import { IWallet } from "../models/wallet.model";
 import { transactionTypes } from "../utils/transactionType";
-import { getTransactionsQuerySchema } from "../schemas/transaction.schema";
+import { createTransactionAllData } from "../schemas/transaction.schema";
 import { ITransaction, Transaction } from "../models/transaction.model";
+import { getTransactionsQuerySchema } from "../schemas/transaction.schema";
 
 
 export const createNewTransaction = async(data: z.infer<typeof createTransactionAllData>, wallet: IWallet) => {
-    //checking if user has enough money for transaction
     const { type, amount } = data;
+
+    // Ensure wallet has enough balance for debit transactions
     if (type === transactionTypes.debit && wallet.currentBalance < amount) {
         throw new ApiError('This wallet does not have enough funds for this transaction', 403);
     }
@@ -20,17 +21,21 @@ export const createNewTransaction = async(data: z.infer<typeof createTransaction
     const newTransaction = new Transaction(data)
     wallet.currentBalance += adjustmentFactor * amount;
 
-    // session for ACID :)
+    // Start a database session for ACID compliance
     const session = await mongoose.startSession()
-    try{
-        session.startTransaction()
+    session.startTransaction()
+    try {
         const option = { session }
+
         await wallet.save(option)
         await newTransaction.save(option)
-        session.commitTransaction()
-    }catch(err){
-        session.abortTransaction()
+
+        session.commitTransaction() // Commit changes if successful
+    }catch(err) {
+        session.abortTransaction() // Rollback if an error occurs
         throw new ApiError('Internal server error', 500)
+    } finally {
+        session.endSession();
     }
     return newTransaction
 }
@@ -55,7 +60,7 @@ export const getTransactionById = async(id: string) => {
     const transaction = await Transaction.findById(id)
 
     if(!transaction)
-        throw new ApiError('This transaction id is invalid', 401)
+        throw new ApiError('This transaction id is invalid', 404)
 
     return transaction
 }

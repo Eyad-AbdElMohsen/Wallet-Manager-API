@@ -5,7 +5,7 @@ import { z } from 'zod'
 export const getWalletQuerySchema = getQuerySchema.extend({
     walletType: walletTypeSchema,
     fields: arrayQueryField(['_id', 'userId', 'walletName', 'currentBalance', 'type'])
-}).partial();
+}).partial(); // That means optional
 
 
 
