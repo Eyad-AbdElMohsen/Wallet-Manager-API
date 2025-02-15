@@ -6,9 +6,9 @@ interface BaseQuery {
     limit: number,
     fields: string
 }
-interface BaseQueryArgs extends Partial<BaseQuery>{}
+export interface BaseQueryArgs extends Partial<BaseQuery>{}
 
-class ApiFeatures<T extends Document> {
+export class ApiFeatures<T extends Document> {
     public query: Query<T[],T>;
     public queryString: BaseQuery
 
@@ -58,5 +58,3 @@ class ApiFeatures<T extends Document> {
         return this;
     }
 }
-
-export default ApiFeatures;

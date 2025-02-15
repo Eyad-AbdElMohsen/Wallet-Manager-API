@@ -2,9 +2,11 @@ import { app } from "../../index";
 import ApiError from "../../errors/api.error";
 import request from 'supertest'
 
+
 jest.mock('../../middlewares/requestLogger.ts', () => {
     return {
         requestLogger: jest.fn((req, res, next) => {
+            // Instead of logging the request, we force it to throw an error
             next(new ApiError('new api error', 500))
         })
     }

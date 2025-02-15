@@ -3,7 +3,8 @@ import env from "../env"
 import { v4 as uuidv4 } from "uuid";
 
 const DB_URL = env.DB_URL
-mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
+if(env.NODE_ENV !== 'test')
+    mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
 
 const userSchema = new mongoose.Schema(
     {

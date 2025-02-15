@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import ApiError from "../errors/api.error";
-import ApiFeatures from "../utils/ApiFeatures";
+import { ApiFeatures } from "../utils/ApiFeatures";
 import { z } from 'zod'
 import { IWallet } from "../models/wallet.model";
 import { transactionTypes } from "../utils/transactionType";

@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { walletType } from "../utils/walletType";
 
 const DB_URL = env.DB_URL
-mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
+if(env.NODE_ENV !== 'test')
+    mongoose.connect(DB_URL).then(()=> console.log('mongodb server start'))
 
 const walletSchema = new mongoose.Schema(
     {
