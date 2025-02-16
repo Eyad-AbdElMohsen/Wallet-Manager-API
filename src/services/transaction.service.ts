@@ -32,6 +32,7 @@ export const createNewTransaction = async(data: z.infer<typeof createTransaction
 
         session.commitTransaction() // Commit changes if successful
     }catch(err) {
+        console.log('session error is :::: ' + err)
         session.abortTransaction() // Rollback if an error occurs
         throw new ApiError('Internal server error', 500)
     }
@@ -47,8 +48,8 @@ export const getTransactionHistory = async(walletId: string, queryObject: z.infe
     
     const transactions = await features.query;
 
-    if(!transactions)
-        throw new ApiError('This wallet does not have any transactions yet', 404)
+    if(!transactions || !transactions.length)
+        throw new ApiError('This wallet does not have any transactions yet with these filters', 404)
 
     return transactions
 }

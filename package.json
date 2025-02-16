@@ -6,7 +6,7 @@
     "build": "rimraf dist && npx tsc",
     "start": "node dist/server.js",
     "serve": "nodemon src/server.ts",
-    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && jest --coverage"
+    "test": "SET \"NODE_ENV=test\" && jest --coverage"
   },
   "keywords": [],
   "author": "",
