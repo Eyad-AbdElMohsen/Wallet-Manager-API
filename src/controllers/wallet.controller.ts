@@ -82,7 +82,7 @@ export const deleteMyWallet: RequestHandler  = async(req, res) => {
     })
 }
 
-export const getAllMyCurrentBalance: RequestHandler  = async(req, res, next) => {
+export const getAllMyCurrentBalance: RequestHandler  = async(req, res) => {
     const userId = req.currentUser!.userId
 
     const allCurrentBalance = await walletService.getAllMyCurrentBalance(userId)

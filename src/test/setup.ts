@@ -4,26 +4,33 @@ import { User } from "../models/user.model";
 import { Wallet } from "../models/wallet.model";
 import { Transaction } from "../models/transaction.model";
 
-let replset: MongoMemoryReplSet;
+const dbName = "dbName"
+const replicaSetName = 'replicaSetName'
+let replSet: MongoMemoryReplSet
 
 beforeAll(async () => {
-    replset = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
-    const uri = replset.getUri();
-    await mongoose.connect(uri);
+    replSet = await MongoMemoryReplSet.create({
+        replSet: {
+            dbName,
+            name: replicaSetName,
+        },
+    });
+    
+    await replSet.waitUntilRunning();
+    const uri = replSet.getUri()
+    await mongoose.connect(uri)
 });
 
 afterAll(async () => {
     await mongoose.disconnect();
-    await replset.stop();
+    await replSet.stop()
 });
 
-afterEach(() => {
-    jest.resetAllMocks()
-})
-
 afterEach(async () => {
+    jest.resetAllMocks()
     await Transaction.deleteMany({});
     await Wallet.deleteMany({});
     await User.deleteMany({});
-});
+})
+
 
