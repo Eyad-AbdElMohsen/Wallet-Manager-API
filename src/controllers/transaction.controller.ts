@@ -30,7 +30,6 @@ export const createNewTransaction: RequestHandler = async(req, res) => {
     })
 }
 
-
 export const getMyTransaction: RequestHandler = async(req, res) => {
     const transaction = req.transaction!
 
