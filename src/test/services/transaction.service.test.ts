@@ -142,7 +142,7 @@ describe('getTransactionHistory', () => {
 
 })
 
-describe('getTransactionHistory', () => {
+describe('getTransactionById', () => {
     it('should throw an error with message "This transaction id is invalid', async () => {
         const id = uuidv4()
         await expect(getTransactionById(id)).rejects.toThrow('This transaction id is invalid')
