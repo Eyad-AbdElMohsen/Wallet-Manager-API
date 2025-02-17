@@ -12,7 +12,6 @@ const client = new OAuth2Client(
 
 export const getGoogleAuthHandler = (scope: string) => client.generateAuthUrl({ scope }) 
 
-
 export const googleOAuthHandler = async (code: string) => {
     // Get Tokens with the authorization code 
     const data = await getGoogleUserTokens(code);

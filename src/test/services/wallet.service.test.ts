@@ -74,7 +74,6 @@ describe('getMyWallets', () => {
             userId
         })
 
-        console.log(await Wallet.find({userId}))
         const res = await getMyWallets(userId, queryObject)
 
         // wallet 2 is not specified our filteration
