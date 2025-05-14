@@ -35,13 +35,13 @@ export const googleOAuthHandler: RequestHandler = async(req, res) => {
     }, { upsert: true, new: true });  // Upsert options
 
     // Generate Access Token and Refresh Token
-    const accessToken = await generateAccessJWT({
+    const accessToken = generateAccessJWT({
         googleId,
         email,
         userId: user!._id
     });
 
-    const refreshToken = await generateRefreshJWT({        
+    const refreshToken = generateRefreshJWT({        
         googleId,
         email,
         userId: user!._id

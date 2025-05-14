@@ -31,7 +31,7 @@ describe('verifyAccessToken', () => {
 
     
     it('should call nextFunction for valid token', async () => {
-        const token = await generateAccessJWT({userId: '123', email: 'email@email.com', googleId: '456'})
+        const token = generateAccessJWT({userId: '123', email: 'email@email.com', googleId: '456'})
         mockRequest.headers = {
             'authorization': `Bearer ${token}`
         }
@@ -67,7 +67,7 @@ describe('verifyRefreshToken', () => {
 
     
     it('should return new accessToken and user data', async () => {
-        const token = await generateRefreshJWT({ userId: "123", email: "email@email.com", googleId: "456" })
+        const token = generateRefreshJWT({ userId: "123", email: "email@email.com", googleId: "456" })
 
         mockRequest.cookies = {
             refreshToken: token 
